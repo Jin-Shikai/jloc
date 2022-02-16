@@ -4,16 +4,15 @@ use jloc::Config;
 
 use std::io;
 fn main() {
-    let mut input = String::new();
-    loop {
-        if let Err(e) = io::stdin().read_line(&mut input) {
-            println!("Error:{}", e);
-            process::exit(1);
-        }
-        if input.is_empty() {
-            process::exit(0);
-        }
-        println!("{}", input.trim());
-        input.clear();
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    if let Err(e) = jloc::run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
     }
 }
