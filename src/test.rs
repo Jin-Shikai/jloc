@@ -5,23 +5,36 @@
 */
 #[cfg(test)]
 mod test {
-    use serde_json::Value;
-    // can be parsed as json, get json
+    use serde_json::{json, Value};
+    use std::io;
+
+    // if str can be parsed as json, get json
     #[test]
-    fn basic_ability_parse_json() {
+    fn parse_json() {
         let contents = r#"{
             "name": "Shikai Jin",
-            "age": "23"
+            "age": "23",
+            "age_int":23
         }"#;
         let v: Value = serde_json::from_str(contents).unwrap();
         assert_eq!("Shikai Jin", v["name"]);
+        assert_eq!("23", v["age"]);
+        assert_eq!(23, v["age_int"]);
     }
 
-    // can't be parsed as json, get Null
+    // elif can't be parsed as json, get Null
     #[test]
-    fn basic_ability_parse_general_str() {
+    fn parse_general_str() {
         let contents = "abcd";
         let v: Value = serde_json::from_str(contents).unwrap_or(Value::Null);
-        assert_eq!(Value::Null, v);
+        assert_eq!(json!(Value::Null), v);
+    }
+
+    #[test]
+    fn parse_general_int() {
+        assert_eq!(json!("1234"), "1234");
+        let contents = "1234";
+        let v: Value = serde_json::from_str(contents).unwrap_or(Value::Null);
+        assert_eq!(json!(1234), v);
     }
 }
