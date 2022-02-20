@@ -13,6 +13,7 @@ name = "jloc"
 version = "0.1.0"
 dependencies = [
  "serde_json",
+ "serde_transcode",
 ]
 
 [[package]]
@@ -35,5 +36,12 @@ checksum = "8e8d9fa5c3b304765ce1fd9c4c8a3de2c8db365a5b91be52f186efc675681d95"
 dependencies = [
  "itoa",
  "ryu",
+ "serde",
+]
+
+[[package]]
+name = "serde_transcode"
+version = "0.1.0"
+dependencies = [
  "serde",
 ]
