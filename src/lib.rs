@@ -91,3 +91,20 @@ pub fn parse_key(raw_arg: String) -> Vec<JsonKey> {
     }
     return v_key;
 }
+/*
+    create date:2/21/22
+    desc: 命令行参数数据结构及构造函数
+*/
+pub struct Config {
+    route: String,
+}
+
+impl Config {
+    pub fn new(args: &[String]) -> Config {
+        let mut route = "".to_string();
+        if args.len() > 1 {
+            route = args[1].clone();
+        }
+        Config { route }
+    }
+}
