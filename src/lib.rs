@@ -12,15 +12,31 @@ use std::io;
    create date: 2/16/22
    desc: 运行函数主体
 */
-pub fn run() -> Result<(), Box<dyn Error>> {
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let mut input = String::new();
-    loop {
-        io::stdin().read_line(&mut input)?;
-        if input.is_empty() {
-            return Ok(());
+    if config.route != "".to_string() {
+        let key_vec = parse_key(config.route);
+        loop {
+            io::stdin().read_line(&mut input)?;
+            if input.is_empty() {
+                return Ok(());
+            }
+            let input_json = serde_json::from_str(&input).unwrap_or(Value::Null);
+            let output = getter_from_vec(&input_json, &key_vec);
+            match output {
+                Value::Null => println!("{}", ""),
+                other => println!(
+                    "{}",
+                    other
+                        .to_string()
+                        .trim_end_matches("\"")
+                        .trim_start_matches("\"")
+                ),
+            }
+            input.clear();
         }
-        println!("{}", input.trim());
-        input.clear();
+    } else {
+        Ok(())
     }
 }
 
