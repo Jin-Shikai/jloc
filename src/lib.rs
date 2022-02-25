@@ -9,7 +9,7 @@ use std::io;
 */
 
 /*
-   create date: 2/16/22
+   create: 2/16/22
    desc: 运行函数主体
 */
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
@@ -25,13 +25,25 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
             let output = getter_from_vec(&input_json, &key_vec);
             match output {
                 Value::Null => println!("{}", ""),
-                other => println!(
-                    "{}",
-                    other
-                        .to_string()
-                        .trim_end_matches("\"")
-                        .trim_start_matches("\"")
-                ),
+                other => match config.eq_flag {
+                    // eq输出模式
+                    true => {
+                        // 仅当val等于参数时输出，否则输出空行
+                        if other == config.eq_val {
+                            println!("{}", input_json)
+                        }
+                    }
+                    // 全输出模式
+                    false => {
+                        println!(
+                            "{}",
+                            other
+                                .to_string()
+                                .trim_end_matches("\"")
+                                .trim_start_matches("\"")
+                        )
+                    }
+                },
             }
             input.clear();
         }
@@ -41,7 +53,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 /*
-   create date: 2/20/22
+   create: 2/20/22
    desc: Value::Object的key的数据结构，可能为string或usize
 */
 #[derive(Debug, PartialEq)]
@@ -51,7 +63,7 @@ pub enum JsonKey {
 }
 
 /*
-   create date: 2/19/22
+   create: 2/19/22
    desc: 从一个json中按vec的元素作为key依次取出value，中途遇到任何问题返回空；
    notice: 不区分缺失key/key存在但value为null这两种情况，一律返回Value::Null
 */
@@ -91,7 +103,8 @@ pub fn getter_from_vec<'a>(v: &'a Value, key_list: &Vec<JsonKey>) -> &'a Value {
         2. 如果item以'['开头且以']'结尾且中间部分能转为数字，作为JsonKey::Idx;
         3. 其他情况作为JsonKey::Str;
 */
-pub fn parse_key(raw_arg: String) -> Vec<JsonKey> {
+
+pub fn parse_key(raw_arg: &str) -> Vec<JsonKey> {
     let v_raw: Vec<&str> = raw_arg.split(".").collect();
     let mut v_key: Vec<JsonKey> = Vec::new();
     for item in v_raw {
@@ -107,20 +120,37 @@ pub fn parse_key(raw_arg: String) -> Vec<JsonKey> {
     }
     return v_key;
 }
+
 /*
-    create date:2/21/22
+    create: 2/21/22
+    modify: 2/25/22
     desc: 命令行参数数据结构及构造函数
+    notice:
+        1. 第一个参数以'='分隔：
+            无'='时仅打印每行该key值的val
+            有'='时打印key等于'='前，val等于'='后的整行
 */
-pub struct Config {
-    route: String,
+pub struct Config<'a> {
+    route: &'a str,
+    eq_flag: bool,
+    eq_val: &'a str,
 }
 
-impl Config {
+impl Config<'_> {
     pub fn new(args: &[String]) -> Config {
-        let mut route = "".to_string();
+        let mut config = Config {
+            route: "",
+            eq_flag: false,
+            eq_val: "",
+        };
         if args.len() > 1 {
-            route = args[1].clone();
+            let arg_1: Vec<&str> = args[1].split("=").collect();
+            config.route = arg_1[0];
+            if arg_1.len() > 1 {
+                config.eq_flag = true;
+                config.eq_val = arg_1[1];
+            }
         }
-        Config { route }
+        config
     }
 }

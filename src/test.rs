@@ -108,7 +108,7 @@ mod test {
             JsonKey::Str("c".to_string()),
             JsonKey::Str("d".to_string()),
         ];
-        assert_eq!(target_vec, parse_key(arg_str.to_string()));
+        assert_eq!(target_vec, parse_key(arg_str));
     }
 
     #[test]
@@ -135,22 +135,24 @@ mod test {
         let mut arg_str = "key3.test_key";
         assert_eq!(
             json!("test_value"),
-            *getter_from_vec(&input, &parse_key(arg_str.to_string()))
+            *getter_from_vec(&input, &parse_key(arg_str))
         );
         arg_str = "key1";
-        assert_eq!(
-            json!("a"),
-            *getter_from_vec(&input, &parse_key(arg_str.to_string()))
-        );
+        assert_eq!(json!("a"), *getter_from_vec(&input, &parse_key(arg_str)));
         arg_str = "key2.[0]";
-        assert_eq!(
-            json!(3),
-            *getter_from_vec(&input, &parse_key(arg_str.to_string()))
-        );
+        assert_eq!(json!(3), *getter_from_vec(&input, &parse_key(arg_str)));
         arg_str = "key4.[0].k4_1";
-        assert_eq!(
-            json!("v4_1"),
-            *getter_from_vec(&input, &parse_key(arg_str.to_string()))
-        );
+        assert_eq!(json!("v4_1"), *getter_from_vec(&input, &parse_key(arg_str)));
+    }
+
+    #[test]
+    fn test_split() {
+        let input = "abc=zxc";
+        let input: Vec<&str> = input.split("=").collect();
+        assert_eq!(input[0], "abc");
+        assert_eq!(input[1], "zxc");
+        let input = "abc";
+        let input: Vec<&str> = input.split("=").collect();
+        assert_eq!(input[0], "abc");
     }
 }
