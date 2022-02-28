@@ -2,7 +2,7 @@ mod test;
 
 use serde_json::Value;
 use std::error::Error;
-use std::io;
+use std::io::{self, Read};
 /*
    file: src/lib.rs
    author: jinshikai
@@ -48,6 +48,13 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
             input.clear();
         }
     } else {
+        io::stdin().read_to_string(&mut input)?;
+        if input.is_empty() {
+            return Ok(());
+        }
+        let input_json = serde_json::from_str(&input).unwrap_or(Value::Null);
+        let mut serializer = serde_json::Serializer::pretty(io::stdout());
+        serde_transcode::transcode(input_json, &mut serializer).unwrap();
         Ok(())
     }
 }
@@ -126,9 +133,9 @@ pub fn parse_key(raw_arg: &str) -> Vec<JsonKey> {
     modify: 2/25/22
     desc: 命令行参数数据结构及构造函数
     notice:
-        1. 第一个参数以'='分隔：
-            无'='时仅打印每行该key值的val
-            有'='时打印key等于'='前，val等于'='后的整行
+        1. 第一个参数以'='分隔
+            无'=': 整行输出
+            有'=': 指定value输出
 */
 pub struct Config<'a> {
     route: &'a str,
