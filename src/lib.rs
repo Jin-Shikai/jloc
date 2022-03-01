@@ -28,12 +28,12 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
                 other => match config.eq_flag {
                     // eq输出模式
                     true => {
-                        // 仅当val等于参数时输出，否则输出空行
-                        if other == config.eq_val {
-                            println!("{}", input_json)
+                        // 仅当val等于参数时输出全行，否则输出空行
+                        if *output == config.eq_val {
+                            println!("{}", input_json);
                         }
                     }
-                    // 全输出模式
+                    // 单独value输出
                     false => {
                         println!(
                             "{}",
@@ -140,7 +140,7 @@ pub fn parse_key(raw_arg: &str) -> Vec<JsonKey> {
 pub struct Config<'a> {
     route: &'a str,
     eq_flag: bool,
-    eq_val: &'a str,
+    eq_val: Value,
 }
 
 impl Config<'_> {
@@ -148,14 +148,14 @@ impl Config<'_> {
         let mut config = Config {
             route: "",
             eq_flag: false,
-            eq_val: "",
+            eq_val: Value::Null,
         };
         if args.len() > 1 {
             let arg_1: Vec<&str> = args[1].split("=").collect();
             config.route = arg_1[0];
             if arg_1.len() > 1 {
                 config.eq_flag = true;
-                config.eq_val = arg_1[1];
+                config.eq_val = serde_json::from_str(arg_1[1]).unwrap();
             }
         }
         config
