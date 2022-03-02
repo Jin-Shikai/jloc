@@ -1,6 +1,6 @@
 # jloc (json locator)
 
-功能：以行为单位读取json格式数据，并按指定key展示value，或指定key和value输出符合条件的数据行。
+以行为单位读取json格式数据，并按指定key展示value，或指定key和value输出符合条件的数据行。
 
 ## demo
 
