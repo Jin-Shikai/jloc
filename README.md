@@ -1,10 +1,10 @@
 # jloc
 
-一个简易的在命令行中以行为单位解析json格式数据的小工具。
+一个简易的在命令行中运行的小工具。功能是行为单位读取json格式数据，并按指定key展示value，或指定key和value输出符合条件的数据行。
 
 ## demo
 
-1. 输入单行json数据，格式化输出，用于查看单条
+1. 输入单行json数据，0个参数，格式化输出，用于查看单条
 
 ![image](https://github.com/Shikai-Jin/jloc/blob/main/readme_gif/1.gif)
 
@@ -18,7 +18,7 @@ _多级之间用'.'分隔，列表索引使用'[ ]'_
 
 
 
-3. 输入多行数据，以key为参数并用'='指定value值，输出每行该key的value为指定值的整行。
+3. 输入多行数据，在2的基础上用'='指定value值，输出每行该key的value为指定值的整行。
 
 ![image](https://github.com/Shikai-Jin/jloc/blob/main/readme_gif/3.gif)
 
