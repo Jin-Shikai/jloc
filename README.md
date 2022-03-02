@@ -1,6 +1,6 @@
-# jloc
+# jloc (json locator)
 
-一个简易的在命令行中运行的小工具。功能是行为单位读取json格式数据，并按指定key展示value，或指定key和value输出符合条件的数据行。
+功能：以行为单位读取json格式数据，并按指定key展示value，或指定key和value输出符合条件的数据行。
 
 ## demo
 
