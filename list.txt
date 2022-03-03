@@ -1,0 +1,4 @@
+{"id":1,"name":"\u5f20\u4e09","status":true,"score":[{"val":80,"desc":"\u6570\u5b66"},{"val":90,"desc":"\u8bed\u6587"},{"val":100,"desc":"\u82f1\u8bed"}]}
+{"id":2,"name":"\u674e\u56db","status":true,"score":[{"val":85,"desc":"\u6570\u5b66"},{"val":85,"desc":"\u8bed\u6587"},{"val":90,"desc":"\u82f1\u8bed"}]}
+{"id":3,"name":"\u738b\u4e94","status":true,"score":[{"val":80,"desc":"\u6570\u5b66"},{"val":90,"desc":"\u8bed\u6587"},{"val":75,"desc":"\u82f1\u8bed"}]}
+{"id":4,"name":"\u8d75\u516d","status":false,"score":[{"val":70,"desc":"\u6570\u5b66"},{"val":80,"desc":"\u8bed\u6587"},{"val":90,"desc":"\u82f1\u8bed"}]}
