@@ -27,7 +27,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
             }
             let output = getter_from_vec(&input_json, &key_vec);
             match output {
-                Value::Null => continue,
+                Value::Null => (),
                 other => match config.eq_flag {
                     // eq输出模式
                     true => {
