@@ -22,9 +22,12 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
                 return Ok(());
             }
             let input_json = serde_json::from_str(&input).unwrap_or(Value::Null);
+            if input_json.is_null() {
+                continue;
+            }
             let output = getter_from_vec(&input_json, &key_vec);
             match output {
-                Value::Null => println!("{}", ""),
+                Value::Null => continue,
                 other => match config.eq_flag {
                     // eq输出模式
                     true => {
