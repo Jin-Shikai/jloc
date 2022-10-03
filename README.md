@@ -32,7 +32,7 @@ _多级之间用'.'分隔，列表索引使用'[ ]'_
 
 ## start
 
-可以简单地将release的二进制文件添加进环境变量，或从源码编译
+可以简单地将release的二进制文件(https://github.com/Shikai-Jin/jloc/releases)添加进环境变量，或从源码编译
 
 
 
