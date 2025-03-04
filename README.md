@@ -10,7 +10,7 @@ Read JSON format data in lines and display the value according to the specified 
 
 
 
-2. 输入多行json数据，以key为参数，输出每行该key的value。用于批量过滤。
+2. Input multiple lines of JSON data, take key as parameter, and output the value of each key. Used for batch filtering.
 
 ![image](https://github.com/Shikai-Jin/jloc/blob/main/readme_gif/2.gif)
 
